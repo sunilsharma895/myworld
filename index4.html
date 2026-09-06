@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Travel Diary</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#07111f;
+    color:white;
+    min-height:100vh;
+}
+
+/* LOGIN */
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:linear-gradient(135deg,#07111f,#12345a);
+}
+
+.loginBox{
+    width:100%;
+    max-width:380px;
+    background:#101d2e;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 40px #0008;
+    text-align:center;
+}
+
+.loginBox h1{
+    margin-bottom:25px;
+}
+
+.loginBox input{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:0;
+    border-radius:10px;
+    font-size:16px;
+}
+
+.loginBtn{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:0;
+    border-radius:10px;
+    background:#2196f3;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+}
+
+#error{
+    color:#ff6b6b;
+    margin-top:12px;
+    display:none;
+}
+
+/* APP */
+#app{
+    display:none;
+}
+
+header{
+    padding:20px;
+    background:#0d1b2a;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+header h1{
+    font-size:22px;
+}
+
+.headerButtons{
+    display:flex;
+    gap:8px;
+}
+
+.headerButtons button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    color:white;
+    background:#1976d2;
+    cursor:pointer;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:25px;
+}
+
+/* HOME */
+.hero{
+    text-align:center;
+    padding:35px 10px;
+}
+
+.hero h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#b8c7d9;
+}
+
+.addBox{
+    background:#101d2e;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:25px;
+}
+
+.addBox input[type="text"]{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    margin-bottom:12px;
+}
+
+.fileLabel{
+    display:block;
+    background:#263c55;
+    padding:13px;
+    border-radius:9px;
+    text-align:center;
+    cursor:pointer;
+    margin-bottom:12px;
+}
+
+.fileInput{
+    display:none;
+}
+
+.actionBtn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    background:#2196f3;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.previewTitle{
+    margin:15px 0 8px;
+}
+
+#preview{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+    gap:10px;
+    margin-bottom:15px;
+}
+
+#preview img,
+#preview video{
+    width:100%;
+    height:110px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.memories{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#101d2e;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 25px #0005;
+}
+
+.card h3{
+    padding:15px 15px 5px;
+}
+
+.card p{
+    padding:5px 15px 15px;
+    color:#aebed0;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:5px;
+    padding:10px;
+}
+
+.gallery img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cardButtons{
+    display:flex;
+    gap:8px;
+    padding:10px;
+}
+
+.deleteBtn{
+    flex:1;
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:#d32f2f;
+    color:white;
+    cursor:pointer;
+}
+
+.logoutBtn{
+    flex:1;
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:#555;
+    color:white;
+    cursor:pointer;
+}
+
+/* ABOUT */
+#aboutPage{
+    display:none;
+}
+
+.aboutBox{
+    max-width:700px;
+    margin:60px auto;
+    background:#101d2e;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.aboutBox h2{
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+.aboutBox p{
+    font-size:20px;
+    color:#c5d2df;
+}
+
+/* FULLSCREEN */
+#viewer{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000e;
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+#viewer img{
+    max-width:95%;
+    max-height:90vh;
+    object-fit:contain;
+    cursor:zoom-in;
+    transition:transform .3s;
+}
+
+#viewer img.zoomed{
+    transform:scale(2);
+    cursor:zoom-out;
+}
+
+.closeViewer{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:35px;
+    cursor:pointer;
+    z-index:2;
+}
+
+@media(max-width:600px){
+    header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .headerButtons{
+        width:100%;
+    }
+
+    .headerButtons button{
+        flex:1;
+    }
+
+    .hero h2{
+        font-size:26px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<section id="loginPage">
+
+    <div class="loginBox">
+
+        <h1>🔐 My Travel Diary</h1>
+
+        <input
+            id="username"
+            type="text"
+            placeholder="Username"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button
+            class="loginBtn"
+            onclick="login()"
+        >
+            Login
+        </button>
+
+        <p id="error">
+            ❌ Wrong Username or Password
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN APP -->
+<section id="app">
+
+<header>
+
+    <h1>🌍 My Travel Diary</h1>
+
+    <div class="headerButtons">
+
+        <button onclick="showHome()">
+            Home
+        </button>
+
+        <button onclick="showAbout()">
+            About Myself
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- HOME PAGE -->
+<div id="homePage">
+
+    <div class="container">
+
+        <div class="hero">
+
+            <h2>Welcome to my world 🌍</h2>
+
+            <p>
+                Save your beautiful memories here.
+            </p>
+
+        </div>
+
+
+        <!-- ADD MEMORY -->
+        <div class="addBox">
+
+            <h2 style="margin-bottom:15px;">
+                📸 Add New Memory
+            </h2>
+
+            <input
+                id="memoryTitle"
+                type="text"
+                placeholder="Memory title e.g. Kashmir Trip"
+            >
+
+            <label class="fileLabel">
+                📷 Choose Photos from Gallery
+
+                <input
+                    id="photoInput"
+                    class="fileInput"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                >
+            </label>
+
+            <label class="fileLabel">
+                🎥 Choose Video (optional)
+
+                <input
+                    id="videoInput"
+                    class="fileInput"
+                    type="file"
+                    accept="video/*"
+                >
+            </label>
+
+            <h3 class="previewTitle">
+                Preview
+            </h3>
+
+            <div id="preview"></div>
+
+            <button
+                class="actionBtn"
+                onclick="saveMemory()"
+            >
+                💾 Save Memory
+            </button>
+
+        </div>
+
+
+        <h2 style="margin-bottom:15px;">
+            🧳 My Memories
+        </h2>
+
+        <div
+            id="memories"
+            class="memories"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ABOUT PAGE -->
+<div id="aboutPage">
+
+    <div class="container">
+
+        <div class="aboutBox">
+
+            <h2>👤 About Myself</h2>
+
+            <p>
+                This is my own world 🌍
+            </p>
+
+            <br>
+
+            <button
+                class="actionBtn"
+                onclick="showHome()"
+            >
+                🔙 Back to Home
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- IMAGE VIEWER -->
+<div id="viewer">
+
+    <span
+        class="closeViewer"
+        onclick="closeViewer()"
+    >
+        ×
+    </span>
+
+    <img
+        id="viewerImage"
+        onclick="zoomImage()"
+    >
+
+</div>
+
+
+<script>
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+    var username =
+        document.getElementById("username").value;
+
+    var password =
+        document.getElementById("password").value;
+
+    if(
+        username === "admin" &&
+        password === "1234"
+    ){
+
+        document.getElementById("loginPage").style.display =
+            "none";
+
+        document.getElementById("app").style.display =
+            "block";
+
+        document.getElementById("error").style.display =
+            "none";
+
+        loadMemories();
+
+    }else{
+
+        document.getElementById("error").style.display =
+            "block";
+
+    }
+}
+
+
+/* ENTER KEY LOGIN */
+
+document.getElementById("password")
+.addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+        login();
+    }
+
+});
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showHome(){
+
+    document.getElementById("homePage").style.display =
+        "block";
+
+    document.getElementById("aboutPage").style.display =
+        "none";
+
+}
+
+function showAbout(){
+
+    document.getElementById("homePage").style.display =
+        "none";
+
+    document.getElementById("aboutPage").style.display =
+        "block";
+
+}
+
+function logout(){
+
+    document.getElementById("app").style.display =
+        "none";
+
+    document.getElementById("loginPage").style.display =
+        "flex";
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("password").value = "";
+
+}
+
+
+/* =========================
+   INDEXED DB
+========================= */
+
+var db;
+
+var request =
+    indexedDB.open("MyTravelDiaryDB", 1);
+
+
+request.onupgradeneeded = function(event){
+
+    db = event.target.result;
+
+    if(!db.objectStoreNames.contains("memories")){
+
+        db.createObjectStore(
+            "memories",
+            {
+                keyPath:"id",
+                autoIncrement:true
+            }
+        );
+
+    }
+
+};
+
+
+request.onsuccess = function(event){
+
+    db = event.target.result;
+
+    loadMemories();
+
+};
+
+
+request.onerror = function(){
+
+    alert(
+        "Browser storage open nahi ho paya."
+    );
+
+};
+
+
+/* =========================
+   PHOTO PREVIEW
+========================= */
+
+document.getElementById("photoInput")
+.addEventListener("change", function(){
+
+    var preview =
+        document.getElementById("preview");
+
+    preview.innerHTML = "";
+
+    var files = this.files;
+
+    for(var i = 0; i < files.length; i++){
+
+        var img =
+            document.createElement("img");
+
+        img.src =
+            URL.createObjectURL(files[i]);
+
+        preview.appendChild(img);
+
+    }
+
+});
+
+
+/* VIDEO PREVIEW */
+
+document.getElementById("videoInput")
+.addEventListener("change", function(){
+
+    var preview =
+        document.getElementById("preview");
+
+    var oldVideo =
+        document.getElementById("previewVideo");
+
+    if(oldVideo){
+        oldVideo.remove();
+    }
+
+    if(this.files.length > 0){
+
+        var video =
+            document.createElement("video");
+
+        video.id =
+            "previewVideo";
+
+        video.controls = true;
+
+        video.src =
+            URL.createObjectURL(this.files[0]);
+
+        preview.appendChild(video);
+
+    }
+
+});
+
+
+/* =========================
+   SAVE MEMORY
+========================= */
+
+function saveMemory(){
+
+    if(!db){
+
+        alert(
+            "Storage abhi ready nahi hai. 1 second baad try karo."
+        );
+
+        return;
+    }
+
+
+    var title =
+        document.getElementById("memoryTitle").value.trim();
+
+    var photos =
+        document.getElementById("photoInput").files;
+
+    var video =
+        document.getElementById("videoInput").files;
+
+
+    if(title === ""){
+
+        alert(
+            "Memory ka title likho."
+        );
+
+        return;
+
+    }
+
+
+    if(photos.length === 0){
+
+        alert(
+            "Kam se kam 1 photo select karo."
+        );
+
+        return;
+
+    }
+
+
+    var photoArray = [];
+
+    for(var i = 0; i < photos.length; i++){
+
+        photoArray.push(photos[i]);
+
+    }
+
+
+    var videoFile =
+        video.length > 0
+        ? video[0]
+        : null;
+
+
+    var memory = {
+
+        title:title,
+
+        photos:photoArray,
+
+        video:videoFile,
+
+        date:new Date().toLocaleString()
+
+    };
+
+
+    var transaction =
+        db.transaction(
+            ["memories"],
+            "readwrite"
+        );
+
+
+    var store =
+        transaction.objectStore("memories");
+
+
+    store.add(memory);
+
+
+    transaction.oncomplete = function(){
+
+        alert(
+            "✅ Memory successfully save ho gayi!"
+        );
+
+
+        document.getElementById("memoryTitle").value =
+            "";
+
+        document.getElementById("photoInput").value =
+            "";
+
+        document.getElementById("videoInput").value =
+            "";
+
+        document.getElementById("preview").innerHTML =
+            "";
+
+        loadMemories();
+
+    };
+
+
+    transaction.onerror = function(){
+
+        alert(
+            "❌ Memory save nahi ho payi."
+        );
+
+    };
+
+}
+
+
+/* =========================
+   LOAD MEMORIES
+========================= */
+
+function loadMemories(){
+
+    if(!db){
+        return;
+    }
+
+
+    var container =
+        document.getElementById("memories");
+
+    container.innerHTML = "";
+
+
+    var transaction =
+        db.transaction(
+            ["memories"],
+            "readonly"
+        );
+
+
+    var store =
+        transaction.objectStore("memories");
+
+
+    var request =
+        store.openCursor();
+
+
+    request.onsuccess = function(event){
+
+        var cursor =
+            event.target.result;
+
+
+        if(cursor){
+
+            createMemoryCard(
+                cursor.value
+            );
+
+            cursor.continue();
+
+        }
+
+    };
+
+}
+
+
+/* =========================
+   CREATE MEMORY CARD
+========================= */
+
+function createMemoryCard(memory){
+
+    var container =
+        document.getElementById("memories");
+
+
+    var card =
+        document.createElement("div");
+
+    card.className =
+        "card";
+
+
+    var title =
+        document.createElement("h3");
+
+    title.textContent =
+        "📍 " + memory.title;
+
+
+    var date =
+        document.createElement("p");
+
+    date.textContent =
+        memory.date;
+
+
+    var gallery =
+        document.createElement("div");
+
+    gallery.className =
+        "gallery";
+
+
+    for(
+        var i = 0;
+        i < memory.photos.length;
+        i++
+    ){
+
+        var img =
+            document.createElement("img");
+
+
+        var photoURL =
+            URL.createObjectURL(
+                memory.photos[i]
+            );
+
+
+        img.src =
+            photoURL;
+
+
+        img.onclick =
+            function(){
+
+                openViewer(
+                    this.src
+                );
+
+            };
+
+
+        gallery.appendChild(img);
+
+    }
+
+
+    var buttons =
+        document.createElement("div");
+
+    buttons.className =
+        "cardButtons";
+
+
+    var deleteButton =
+        document.createElement("button");
+
+    deleteButton.className =
+        "deleteBtn";
+
+    deleteButton.textContent =
+        "🗑️ Delete";
+
+
+    deleteButton.onclick =
+        function(){
+
+            deleteMemory(
+                memory.id
+            );
+
+        };
+
+
+    buttons.appendChild(
+        deleteButton
+    );
+
+
+    if(memory.video){
+
+        var video =
+            document.createElement("video");
+
+        video.controls = true;
+
+        video.style.width =
+            "100%";
+
+        video.style.padding =
+            "10px";
+
+        video.src =
+            URL.createObjectURL(
+                memory.video
+            );
+
+        card.appendChild(video);
+
+    }
+
+
+    card.appendChild(title);
+
+    card.appendChild(date);
+
+    card.appendChild(gallery);
+
+    card.appendChild(buttons);
+
+
+    container.appendChild(card);
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteMemory(id){
+
+    var confirmDelete =
+        confirm(
+            "Kya tum ye memory delete karna chahte ho?"
+        );
+
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    var transaction =
+        db.transaction(
+            ["memories"],
+            "readwrite"
+        );
+
+
+    var store =
+        transaction.objectStore("memories");
+
+
+    store.delete(id);
+
+
+    transaction.oncomplete =
+        function(){
+
+            loadMemories();
+
+        };
+
+}
+
+
+/* =========================
+   FULLSCREEN IMAGE
+========================= */
+
+function openViewer(src){
+
+    var viewer =
+        document.getElementById("viewer");
+
+    var image =
+        document.getElementById("viewerImage");
+
+
+    image.src =
+        src;
+
+
+    image.classList.remove(
+        "zoomed"
+    );
+
+
+    viewer.style.display =
+        "flex";
+
+}
+
+
+/* CLOSE */
+
+function closeViewer(){
+
+    document.getElementById("viewer")
+    .style.display =
+        "none";
+
+}
+
+
+/* ZOOM */
+
+function zoomImage(){
+
+    var image =
+        document.getElementById("viewerImage");
+
+
+    image.classList.toggle(
+        "zoomed"
+    );
+
+}
+
+
+/* ESC KEY CLOSE */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
