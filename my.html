@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Travel Diary</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#07111f;
+    color:white;
+    min-height:100vh;
+}
+
+/* ================= LOGIN ================= */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top,#24527a,transparent 45%),
+        linear-gradient(135deg,#020812,#102a43);
+}
+
+.loginBox{
+    width:100%;
+    max-width:420px;
+    background:rgba(16,29,46,.96);
+    padding:35px 30px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 20px 60px #0009;
+}
+
+.welcome{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#b9c9da;
+    margin-bottom:28px;
+    font-size:16px;
+}
+
+.loginBox input{
+    width:100%;
+    padding:15px;
+    margin:8px 0;
+    border:1px solid #30465d;
+    border-radius:12px;
+    background:#0b1828;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.loginBox input:focus{
+    border-color:#42a5f5;
+}
+
+.loginBtn,
+.actionBtn{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2196f3,#1565c0);
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.loginBtn:hover,
+.actionBtn:hover{
+    opacity:.9;
+}
+
+#error{
+    color:#ff7777;
+    margin-top:14px;
+    display:none;
+}
+
+/* ================= APP ================= */
+
+#app{
+    display:none;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:15px 20px;
+    background:#0b1828ee;
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #263b50;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+header h1{
+    font-size:22px;
+}
+
+.headerButtons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.headerButtons button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    color:white;
+    background:#1976d2;
+    cursor:pointer;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:25px;
+}
+
+/* ================= HOME ================= */
+
+.hero{
+    text-align:center;
+    padding:35px 10px;
+}
+
+.hero h2{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#b8c7d9;
+}
+
+/* ================= TRIP SELECT ================= */
+
+.tripBox{
+    background:#101d2e;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:25px;
+}
+
+.tripBox h2{
+    margin-bottom:15px;
+}
+
+.tripSelect{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#0b1828;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+/* ================= ADD MEMORY ================= */
+
+.addBox{
+    background:#101d2e;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:30px;
+}
+
+.addBox h2{
+    margin-bottom:18px;
+}
+
+.addBox input[type="text"]{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    margin-bottom:12px;
+    background:#0b1828;
+    color:white;
+    font-size:16px;
+}
+
+.fileLabel{
+    display:block;
+    background:#263c55;
+    padding:14px;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
+    margin-bottom:12px;
+}
+
+.fileLabel:hover{
+    background:#31516f;
+}
+
+.fileInput{
+    display:none;
+}
+
+.fileInfo{
+    color:#aebed0;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+#preview{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+    gap:10px;
+    margin:15px 0;
+}
+
+#preview img,
+#preview video{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* ================= MEMORIES ================= */
+
+.sectionTitle{
+    margin-bottom:15px;
+}
+
+.memories{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#101d2e;
+    border-radius:17px;
+    overflow:hidden;
+    box-shadow:0 8px 25px #0005;
+}
+
+.card h3{
+    padding:15px 15px 5px;
+}
+
+.cardDate{
+    padding:5px 15px 12px;
+    color:#8fa4b9;
+    font-size:13px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:5px;
+    padding:10px;
+}
+
+.gallery img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cardVideo{
+    width:100%;
+    padding:10px;
+    max-height:300px;
+}
+
+.deleteBtn{
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:9px;
+    background:#d32f2f;
+    color:white;
+    cursor:pointer;
+}
+
+.cardButtons{
+    padding:10px;
+}
+
+/* ================= TRIPS PAGE ================= */
+
+#tripsPage,
+#aboutPage{
+    display:none;
+}
+
+.tripList{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:20px;
+}
+
+.tripCard{
+    background:#101d2e;
+    padding:22px;
+    border-radius:17px;
+    box-shadow:0 8px 25px #0005;
+}
+
+.tripCard h3{
+    margin-bottom:10px;
+}
+
+.tripCard p{
+    color:#aebed0;
+    margin-bottom:15px;
+}
+
+.tripOpenBtn{
+    width:100%;
+    padding:11px;
+    border:0;
+    border-radius:9px;
+    background:#1976d2;
+    color:white;
+    cursor:pointer;
+}
+
+/* ================= ABOUT ================= */
+
+.aboutBox{
+    max-width:700px;
+    margin:60px auto;
+    background:#101d2e;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.aboutBox h2{
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+.aboutBox p{
+    font-size:19px;
+    line-height:1.6;
+    color:#c5d2df;
+}
+
+/* ================= VIEWER ================= */
+
+#viewer{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000e;
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+#viewer img{
+    max-width:95%;
+    max-height:90vh;
+    object-fit:contain;
+    cursor:zoom-in;
+    transition:transform .3s;
+}
+
+#viewer img.zoomed{
+    transform:scale(2);
+    cursor:zoom-out;
+}
+
+.closeViewer{
+    position:absolute;
+    top:12px;
+    right:20px;
+    font-size:40px;
+    cursor:pointer;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    color:#aebed0;
+    padding:20px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .headerButtons{
+        width:100%;
+    }
+
+    .headerButtons button{
+        flex:1;
+    }
+
+    .container{
+        padding:16px;
+    }
+
+    .hero h2{
+        font-size:27px;
+    }
+
+    .welcome{
+        font-size:29px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<section id="loginPage">
+
+<div class="loginBox">
+
+<div class="welcome">
+    🌍 Welcome to My Web
+</div>
+
+<div class="subtitle">
+    📸 My Personal Travel Diary
+</div>
+
+<input
+    id="email"
+    type="email"
+    placeholder="Enter your email"
+>
+
+<input
+    id="password"
+    type="password"
+    placeholder="Enter your password"
+>
+
+<button
+    class="loginBtn"
+    onclick="login()"
+>
+    🔐 Login
+</button>
+
+<p id="error"></p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
+
+<section id="app">
+
+<header>
+
+<h1>🌍 My Travel Diary</h1>
+
+<div class="headerButtons">
+
+<button onclick="showHome()">
+    🏠 Home
+</button>
+
+<button onclick="showTrips()">
+    🧳 Trips
+</button>
+
+<button onclick="showAbout()">
+    👤 About
+</button>
+
+<button onclick="logout()">
+    🚪 Logout
+</button>
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+     HOME PAGE
+===================================================== -->
+
+<div id="homePage">
+
+<div class="container">
+
+<div class="hero">
+
+<h2>
+    Welcome to My World 🌍
+</h2>
+
+<p>
+    Every trip, every memory, one place.
+</p>
+
+</div>
+
+
+<!-- TRIP SELECT -->
+
+<div class="tripBox">
+
+<h2>
+    🧳 Select Your Trip
+</h2>
+
+<select
+    id="tripSelect"
+    class="tripSelect"
+    onchange="loadMemories()"
+>
+
+<option value="Kashmir Trip">
+    🏔️ Kashmir Trip
+</option>
+
+<option value="Jammu Trip">
+    🏞️ Jammu Trip
+</option>
+
+<option value="Delhi Trip">
+    🏙️ Delhi Trip
+</option>
+
+<option value="Other Trip">
+    🌍 Other Trip
+</option>
+
+</select>
+
+</div>
+
+
+<!-- ADD MEMORY -->
+
+<div class="addBox">
+
+<h2>
+    📸 Add Memory
+</h2>
+
+<input
+    id="memoryTitle"
+    type="text"
+    placeholder="Memory title e.g. Dal Lake"
+>
+
+<label class="fileLabel">
+
+📷 Choose Photos
+
+<input
+    id="photoInput"
+    class="fileInput"
+    type="file"
+    accept="image/jpeg,image/png,image/webp,image/gif"
+    multiple
+>
+
+</label>
+
+<div class="fileInfo">
+    You can select multiple photos.
+</div>
+
+
+<label class="fileLabel">
+
+🎥 Choose Video
+
+<input
+    id="videoInput"
+    class="fileInput"
+    type="file"
+    accept="video/mp4,video/webm,video/quicktime"
+>
+
+</label>
+
+<div class="fileInfo">
+    MP4/WebM/MOV recommended. Large videos may require a higher Supabase Storage limit.
+</div>
+
+
+<h3>
+    Preview
+</h3>
+
+<div id="preview"></div>
+
+
+<button
+    class="actionBtn"
+    onclick="saveMemory()"
+>
+    💾 Save Memory
+</button>
+
+</div>
+
+
+<h2 class="sectionTitle">
+    📚 Memories
+</h2>
+
+<div id="memories" class="memories">
+
+<p class="loading">
+    Select a trip to see memories.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TRIPS PAGE
+===================================================== -->
+
+<div id="tripsPage">
+
+<div class="container">
+
+<div class="hero">
+
+<h2>
+    🧳 My Trips
+</h2>
+
+<p>
+    Choose a trip and see its memories.
+</p>
+
+</div>
+
+<div class="tripList">
+
+<div class="tripCard">
+
+<h3>🏔️ Kashmir Trip</h3>
+
+<p>
+Beautiful Kashmir memories.
+</p>
+
+<button
+    class="tripOpenBtn"
+    onclick="openTrip('Kashmir Trip')"
+>
+    Open Trip
+</button>
+
+</div>
+
+
+<div class="tripCard">
+
+<h3>🏞️ Jammu Trip</h3>
+
+<p>
+My Jammu travel memories.
+</p>
+
+<button
+    class="tripOpenBtn"
+    onclick="openTrip('Jammu Trip')"
+>
+    Open Trip
+</button>
+
+</div>
+
+
+<div class="tripCard">
+
+<h3>🏙️ Delhi Trip</h3>
+
+<p>
+My Delhi travel memories.
+</p>
+
+<button
+    class="tripOpenBtn"
+    onclick="openTrip('Delhi Trip')"
+>
+    Open Trip
+</button>
+
+</div>
+
+
+<div class="tripCard">
+
+<h3>🌍 Other Trip</h3>
+
+<p>
+Other special memories.
+</p>
+
+<button
+    class="tripOpenBtn"
+    onclick="openTrip('Other Trip')"
+>
+    Open Trip
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     ABOUT PAGE
+===================================================== -->
+
+<div id="aboutPage">
+
+<div class="container">
+
+<div class="aboutBox">
+
+<h2>
+    👤 About Myself
+</h2>
+
+<p>
+    This is my own world 🌍
+    <br><br>
+    Here I keep my favourite travel memories,
+    photos and videos in one place.
+</p>
+
+<br>
+
+<button
+    class="actionBtn"
+    onclick="showHome()"
+>
+    🔙 Back to Home
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     IMAGE VIEWER
+===================================================== -->
+
+<div id="viewer">
+
+<span
+    class="closeViewer"
+    onclick="closeViewer()"
+>
+×
+</span>
+
+<img
+    id="viewerImage"
+    onclick="zoomImage()"
+>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
+
+const SUPABASE_URL =
+    "PASTE_YOUR_PROJECT_URL_HERE";
+
+const SUPABASE_KEY =
+    "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function login(){
+
+    const email =
+        document.getElementById("email")
+        .value
+        .trim();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    const errorBox =
+        document.getElementById("error");
+
+    errorBox.style.display = "none";
+
+
+    if(!email || !password){
+
+        errorBox.textContent =
+            "❌ Email aur password enter karo.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth
+        .signInWithPassword({
+
+            email:email,
+            password:password
+
+        });
+
+
+    if(error){
+
+        errorBox.textContent =
+            "❌ " + error.message;
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    document.getElementById("loginPage")
+        .style.display = "none";
+
+    document.getElementById("app")
+        .style.display = "block";
+
+
+    showHome();
+
+    loadMemories();
+
+}
+
+
+/* =====================================================
+   ENTER KEY LOGIN
+===================================================== */
+
+document
+.getElementById("password")
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            login();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CHECK LOGIN
+===================================================== */
+
+async function checkLogin(){
+
+    const {
+        data
+    } =
+        await supabaseClient.auth
+        .getSession();
+
+
+    if(data.session){
+
+        document.getElementById("loginPage")
+            .style.display = "none";
+
+        document.getElementById("app")
+            .style.display = "block";
+
+        showHome();
+
+        loadMemories();
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById("app")
+        .style.display = "none";
+
+    document.getElementById("loginPage")
+        .style.display = "flex";
+
+    document.getElementById("email")
+        .value = "";
+
+    document.getElementById("password")
+        .value = "";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function hidePages(){
+
+    document.getElementById("homePage")
+        .style.display = "none";
+
+    document.getElementById("tripsPage")
+        .style.display = "none";
+
+    document.getElementById("aboutPage")
+        .style.display = "none";
+
+}
+
+
+function showHome(){
+
+    hidePages();
+
+    document.getElementById("homePage")
+        .style.display = "block";
+
+    loadMemories();
+
+}
+
+
+function showTrips(){
+
+    hidePages();
+
+    document.getElementById("tripsPage")
+        .style.display = "block";
+
+}
+
+
+function showAbout(){
+
+    hidePages();
+
+    document.getElementById("aboutPage")
+        .style.display = "block";
+
+}
+
+
+function openTrip(trip){
+
+    document.getElementById("tripSelect")
+        .value = trip;
+
+    showHome();
+
+}
+
+
+/* =====================================================
+   PHOTO PREVIEW
+===================================================== */
+
+document
+.getElementById("photoInput")
+.addEventListener(
+    "change",
+    function(){
+
+        updatePreview();
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO PREVIEW
+===================================================== */
+
+document
+.getElementById("videoInput")
+.addEventListener(
+    "change",
+    function(){
+
+        updatePreview();
+
+    }
+);
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function updatePreview(){
+
+    const preview =
+        document.getElementById("preview");
+
+    preview.innerHTML = "";
+
+
+    const photos =
+        document.getElementById("photoInput")
+        .files;
+
+
+    const videos =
+        document.getElementById("videoInput")
+        .files;
+
+
+    for(const file of photos){
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            URL.createObjectURL(file);
+
+        preview.appendChild(img);
+
+    }
+
+
+    if(videos.length > 0){
+
+        const video =
+            document.createElement("video");
+
+        video.controls = true;
+
+        video.src =
+            URL.createObjectURL(
+                videos[0]
+            );
+
+        preview.appendChild(video);
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE MEMORY
+===================================================== */
+
+async function saveMemory(){
+
+    const title =
+        document.getElementById("memoryTitle")
+        .value
+        .trim();
+
+
+    const trip =
+        document.getElementById("tripSelect")
+        .value;
+
+
+    const photos =
+        document.getElementById("photoInput")
+        .files;
+
+
+    const videos =
+        document.getElementById("videoInput")
+        .files;
+
+
+    if(!title){
+
+        alert(
+            "Memory ka title likho."
+        );
+
+        return;
+
+    }
+
+
+    if(photos.length === 0){
+
+        alert(
+            "Kam se kam 1 photo select karo."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data:userData,
+        error:userError
+    } =
+        await supabaseClient.auth
+        .getUser();
+
+
+    if(userError || !userData.user){
+
+        alert(
+            "Session expire ho gayi. Dobara login karo."
+        );
+
+        return;
+
+    }
+
+
+    const userId =
+        userData.user.id;
+
+
+    const photoPaths = [];
+
+
+    /* =================================================
+       UPLOAD PHOTOS
+    ================================================= */
+
+    for(let i=0;i<photos.length;i++){
+
+        const file =
+            photos[i];
+
+
+        const extension =
+            file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+        const filePath =
+            userId +
+            "/photos/" +
+            Date.now() +
+            "_" +
+            i +
+            "." +
+            extension;
+
+
+        const {
+            error
+        } =
+            await supabaseClient.storage
+            .from("memories")
+            .upload(
+                filePath,
+                file,
+                {
+                    cacheControl:"3600",
+                    upsert:false,
+                    contentType:file.type
+                }
+            );
+
+
+        if(error){
+
+            alert(
+                "❌ Photo upload error:\n" +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        photoPaths.push(filePath);
+
+    }
+
+
+    /* =================================================
+       UPLOAD VIDEO
+    ================================================= */
+
+    let videoPath = null;
+
+
+    if(videos.length > 0){
+
+        const video =
+            videos[0];
+
+
+        /* VIDEO SIZE CHECK */
+
+        const maxVideoSize =
+            100 * 1024 * 1024;
+
+
+        if(video.size > maxVideoSize){
+
+            alert(
+                "❌ Video 100 MB se bada hai.\n" +
+                "Please smaller video select karo."
+            );
+
+            return;
+
+        }
+
+
+        const extension =
+            video.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+        videoPath =
+            userId +
+            "/videos/" +
+            Date.now() +
+            "." +
+            extension;
+
+
+        const {
+            error
+        } =
+            await supabaseClient.storage
+            .from("memories")
+            .upload(
+                videoPath,
+                video,
+                {
+                    cacheControl:"3600",
+                    upsert:false,
+                    contentType:video.type
+                }
+            );
+
+
+        if(error){
+
+            alert(
+                "❌ Video upload error:\n" +
+                error.message +
+                "\n\nSupabase Storage bucket aur policies check karo."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* =================================================
+       DATABASE
+    ================================================= */
+
+    const {
+        error:databaseError
+    } =
+        await supabaseClient
+        .from("memories")
+        .insert({
+
+            title:title,
+
+            trip:trip,
+
+            photo_urls:
+                JSON.stringify(photoPaths),
+
+            video_url:
+                videoPath,
+
+            user_id:
+                userId
+
+        });
+
+
+    if(databaseError){
+
+        alert(
+            "❌ Database error:\n" +
+            databaseError.message
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "✅ Memory successfully save ho gayi!"
+    );
+
+
+    document.getElementById("memoryTitle")
+        .value = "";
+
+    document.getElementById("photoInput")
+        .value = "";
+
+    document.getElementById("videoInput")
+        .value = "";
+
+    document.getElementById("preview")
+        .innerHTML = "";
+
+
+    loadMemories();
+
+}
+
+
+/* =====================================================
+   LOAD MEMORIES
+===================================================== */
+
+async function loadMemories(){
+
+    const container =
+        document.getElementById("memories");
+
+
+    if(!container){
+        return;
+    }
+
+
+    container.innerHTML =
+        "<p class='loading'>⏳ Memories loading...</p>";
+
+
+    const trip =
+        document.getElementById("tripSelect")
+        .value;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("memories")
+        .select("*")
+        .eq("trip",trip)
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        container.innerHTML =
+            "<p>❌ " +
+            error.message +
+            "</p>";
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    if(!data || data.length === 0){
+
+        container.innerHTML =
+            "<p class='loading'>Abhi is trip ki koi memory nahi hai.</p>";
+
+        return;
+
+    }
+
+
+    for(const memory of data){
+
+        await createMemoryCard(memory);
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE MEMORY CARD
+===================================================== */
+
+async function createMemoryCard(memory){
+
+    const container =
+        document.getElementById("memories");
+
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "card";
+
+
+    const title =
+        document.createElement("h3");
+
+    title.textContent =
+        "📍 " + memory.title;
+
+
+    const date =
+        document.createElement("p");
+
+    date.className =
+        "cardDate";
+
+    date.textContent =
+        memory.created_at
+        ? new Date(
+            memory.created_at
+          ).toLocaleString()
+        : "";
+
+
+    const gallery =
+        document.createElement("div");
+
+    gallery.className =
+        "gallery";
+
+
+    let photoPaths = [];
+
+
+    try{
+
+        if(Array.isArray(memory.photo_urls)){
+
+            photoPaths =
+                memory.photo_urls;
+
+        }else{
+
+            photoPaths =
+                JSON.parse(
+                    memory.photo_urls || "[]"
+                );
+
+        }
+
+    }catch(e){
+
+        photoPaths = [];
+
+    }
+
+
+    /* =================================================
+       PHOTOS
+    ================================================= */
+
+    for(const path of photoPaths){
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.storage
+            .from("memories")
+            .createSignedUrl(
+                path,
+                3600
+            );
+
+
+        if(error){
+
+            console.log(
+                "Photo URL error:",
+                error
+            );
+
+            continue;
+
+        }
+
+
+        const img =
+            document.createElement("img");
+
+
+        img.src =
+            data.signedUrl;
+
+
+        img.loading =
+            "lazy";
+
+
+        img.onclick =
+            function(){
+
+                openViewer(
+                    this.src
+                );
+
+            };
+
+
+        gallery.appendChild(img);
+
+    }
+
+
+    /* =================================================
+       VIDEO
+    ================================================= */
+
+    if(memory.video_url){
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.storage
+            .from("memories")
+            .createSignedUrl(
+                memory.video_url,
+                3600
+            );
+
+
+        if(!error && data){
+
+            const video =
+                document.createElement("video");
+
+            video.className =
+                "cardVideo";
+
+            video.controls =
+                true;
+
+            video.preload =
+                "metadata";
+
+            video.src =
+                data.signedUrl;
+
+            card.appendChild(video);
+
+        }
+
+    }
+
+
+    /* =================================================
+       DELETE BUTTON
+    ================================================= */
+
+    const buttons =
+        document.createElement("div");
+
+    buttons.className =
+        "cardButtons";
+
+
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.className =
+        "deleteBtn";
+
+    deleteButton.textContent =
+        "🗑️ Delete Memory";
+
+
+    deleteButton.onclick =
+        function(){
+
+            deleteMemory(memory);
+
+        };
+
+
+    buttons.appendChild(
+        deleteButton
+    );
+
+
+    card.appendChild(title);
+
+    card.appendChild(date);
+
+    card.appendChild(gallery);
+
+    card.appendChild(buttons);
+
+
+    container.appendChild(card);
+
+}
+
+
+/* =====================================================
+   DELETE MEMORY
+===================================================== */
+
+async function deleteMemory(memory){
+
+    const confirmDelete =
+        confirm(
+            "Kya tum ye memory delete karna chahte ho?"
+        );
+
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    let photoPaths = [];
+
+
+    try{
+
+        if(Array.isArray(memory.photo_urls)){
+
+            photoPaths =
+                memory.photo_urls;
+
+        }else{
+
+            photoPaths =
+                JSON.parse(
+                    memory.photo_urls || "[]"
+                );
+
+        }
+
+    }catch(e){
+
+        photoPaths = [];
+
+    }
+
+
+    const filesToDelete =
+        [...photoPaths];
+
+
+    if(memory.video_url){
+
+        filesToDelete.push(
+            memory.video_url
+        );
+
+    }
+
+
+    if(filesToDelete.length > 0){
+
+        const {
+            error
+        } =
+            await supabaseClient.storage
+            .from("memories")
+            .remove(
+                filesToDelete
+            );
+
+
+        if(error){
+
+            alert(
+                "❌ Files delete error:\n" +
+                error.message
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    const {
+        error:databaseError
+    } =
+        await supabaseClient
+        .from("memories")
+        .delete()
+        .eq(
+            "id",
+            memory.id
+        );
+
+
+    if(databaseError){
+
+        alert(
+            "❌ Memory delete error:\n" +
+            databaseError.message
+        );
+
+        return;
+
+    }
+
+
+    loadMemories();
+
+}
+
+
+/* =====================================================
+   FULLSCREEN IMAGE
+===================================================== */
+
+function openViewer(src){
+
+    const viewer =
+        document.getElementById("viewer");
+
+    const image =
+        document.getElementById("viewerImage");
+
+
+    image.src =
+        src;
+
+
+    image.classList.remove(
+        "zoomed"
+    );
+
+
+    viewer.style.display =
+        "flex";
+
+}
+
+
+function closeViewer(){
+
+    document.getElementById("viewer")
+        .style.display =
+        "none";
+
+}
+
+
+function zoomImage(){
+
+    document.getElementById("viewerImage")
+        .classList.toggle(
+            "zoomed"
+        );
+
+}
+
+
+/* ESCAPE CLOSE */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkLogin();
+
+</script>
+
+</body>
+</html>
